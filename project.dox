@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dasho mode="android" version="11.2.0">
+    <propertylist>
+        <property name="ANDROID_DALVIK_COMPATIBILITY" value="true"/>
+    </propertylist>
+    <controlflow option="on"/>
+    <stringencrypt implementations="2" level="2" option="on"/>
+    <injection>
+        <runtime merge="false" target="android"/>
+        <checks>
+            <emulatorCheck action="setupVars()">
+                <locations>
+                    <classes name="com.dasho.android.emulator.other.ApplicationLogic">
+                        <method name="someApplicationLogic" signature=""/>
+                    </classes>
+                </locations>
+            </emulatorCheck>
+            <emulatorResponse probability="0.5" response="exit" source="com.dasho.android.emulator.MainActivity.isInitialized()">
+                <locations>
+                    <classes name="com\.dasho\.android\.emulator\.RandomGen.*" regex="true">
+                        <method name="findRnd" signature=".*"/>
+                    </classes>
+                </locations>
+            </emulatorResponse>
+            <emulatorResponse probability="0.25" response="exception" source="com.dasho.android.emulator.MainActivity.isInitialized()">
+                <locations>
+                    <classes name="com.dasho.android.emulator.FindFibTask">
+                        <method name="find" signature="int"/>
+                    </classes>
+                </locations>
+            </emulatorResponse>
+        </checks>
+    </injection>
+</dasho>

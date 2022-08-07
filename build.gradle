@@ -1,0 +1,60 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.preemptive.com/' }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath 'com.preemptive.dasho:dasho-android:1.4.+'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.preemptive.dasho.android'
+
+dasho {
+    enabledBuildVariants "" // blank matches any variant (debug or release)
+}
+
+android{buildTypes{debug{minifyEnabled true}}}
+android{buildTypes{release{minifyEnabled true}}}
+
+android {
+    compileSdkVersion 30
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("keystore.ks")
+            storePassword "password"
+            keyAlias "correct_cert"
+            keyPassword "password"
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
+
+}
+
+repositories {
+    google()
+    jcenter()
+}
